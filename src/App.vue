@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div id="map" class="map"></div>
+    <PlacesBrowser />
   </div>
 </template>
 
@@ -8,6 +9,7 @@
 import "./styles/index.scss";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
+import PlacesBrowser from "./components/PlacesBrowser.vue";
 export default {
   name: 'App',
   data() {
@@ -25,6 +27,7 @@ export default {
       zoom: 12,
     });
   },
+  components: { PlacesBrowser },
 };
 </script>
 
