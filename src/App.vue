@@ -1,13 +1,30 @@
 <template>
   <div class="container">
-
+    <div id="map" class="map"></div>
   </div>
 </template>
 
 <script>
 import "./styles/index.scss";
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl';
 export default {
   name: 'App',
+  data() {
+    return {
+      map: null,
+    }
+  },  
+  mounted() {
+    // Setup mapbox
+    mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_TOKEN;
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/filipknias/ckummyqir01lt18qr4lxhljdg',
+      center: [-74.5, 40], // Set first brewery coords
+      zoom: 12,
+    });
+  },
 };
 </script>
 
@@ -16,5 +33,12 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow-y: none;
+  .map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
