@@ -1,25 +1,30 @@
 <template>
   <div class="browserContainer">
     <div class="browserContainer__navbar">
-      <div class="browserContainer__navbar__logoContainer">
+      <div v-if="!isMobileSearchOpen" class="browserContainer__navbar__logoContainer">
         <img src="../assets/brandLogo.png" class="browserContainer__navbar__logoContainer__logo" />
         <h3 class="browserContainer__navbar__logoContainer__brand">Let's Drink</h3>
       </div>
-      <form class="browserContainer__navbar__searchContainer">
-        <button type="submit" class="browserContainer__navbar__searchContainer__submitButton">
-          <font-awesome-icon icon="search" class="browserContainer__navbar__searchContainer__submitButton__icon" />
-        </button>
-        <input
-          type="text" 
-          class="browserContainer__navbar__searchContainer__input" 
-          placeholder="Search"
+      <div v-if="isMobileSearchOpen" class="browserContainer__navbar__mobileSearchContainer">
+        <font-awesome-icon 
+          class="browserContainer__navbar__mobileSearchContainer__icon" 
+          icon="arrow-left" 
+          title="Go Back"
+          @click="this.isMobileSearchOpen=false"
         />
-      </form>
-      <div class="browserContainer__navbar__linksContainer">
+        <div class="browserContainer__navbar__mobileSearchContainer__customSearch">
+          <CustomSearchInput />  
+        </div>
+      </div>
+      <div class="browserContainer__navbar__customSearch">
+        <CustomSearchInput />
+      </div>
+      <div v-if="!isMobileSearchOpen" class="browserContainer__navbar__linksContainer">
         <font-awesome-icon 
           class="browserContainer__navbar__linksContainer__link browserContainer__navbar__linksContainer__link--mobileLink" 
           icon="search" 
           title="Search"
+          @click="this.isMobileSearchOpen=true"
         />
         <font-awesome-icon 
           class="browserContainer__navbar__linksContainer__link" 
@@ -37,9 +42,21 @@
 </template>
 
 <script>
+import CustomSearchInput from "./CustomSearchInput.vue";
 export default {
   name: 'PlacesBrowser',
-
+  data() {
+    return {
+      isMobileSearchOpen: false,
+    }
+  },
+  mounted() {
+    // Set mobile search open state to false on resize
+    window.addEventListener("resize", () => {
+      this.isMobileSearchOpen = false;
+    });
+  },
+  components: { CustomSearchInput }, 
 }
 </script>
 
@@ -91,32 +108,24 @@ export default {
         }
       }
     }
-    .browserContainer__navbar__searchContainer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: $text-input-bg-color;
+    .browserContainer__navbar__customSearch {
       flex: 1;
-      border-radius: 25px;
-      padding: 0.7rem 1rem;
-      gap: 0.6rem;
       @media (max-width: $breakpoint-md) {
         display: none;
       }
-      .browserContainer__navbar__searchContainer__input {
-        @include inputReset;
-        font-size: 1rem;
-        flex: 1;
-        background: none;
-        color: $text-dark;
-      }
-      .browserContainer__navbar__searchContainer__submitButton {
-        @include buttonReset;
+    }
+    .browserContainer__navbar__mobileSearchContainer {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      width: 100%;
+      .browserContainer__navbar__mobileSearchContainer__icon {
+        font-size: 1.5rem;
+        color: $green;
         cursor: pointer;
-        .browserContainer__navbar__searchContainer__submitButton__icon {
-          font-size: 1rem;
-          color: $text-dark;
-        }
+      }
+      .browserContainer__navbar__mobileSearchContainer__customSearch {
+        flex: 1;
       }
     }
     .browserContainer__navbar__linksContainer {
