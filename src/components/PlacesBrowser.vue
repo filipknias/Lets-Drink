@@ -17,6 +17,11 @@
       </form>
       <div class="browserContainer__navbar__linksContainer">
         <font-awesome-icon 
+          class="browserContainer__navbar__linksContainer__link browserContainer__navbar__linksContainer__link--mobileLink" 
+          icon="search" 
+          title="Search"
+        />
+        <font-awesome-icon 
           class="browserContainer__navbar__linksContainer__link" 
           icon="history" 
           title="History"
@@ -50,7 +55,13 @@ export default {
   z-index: 10;
   width: 40%;
   height: 100%;
-  box-shadow: 2px 0px 10px 0px rgba(36, 36, 36, 0.67);
+  box-shadow: $browser-container-box-shadow;
+  @media (max-width: $breakpoint-lg) {
+    width: 60%;
+  }
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+  }
   .browserContainer__navbar {
     padding: 1rem;
     border-bottom: 1px solid $gray;
@@ -67,9 +78,17 @@ export default {
         width: 50px;
         height: 50px;
         margin-right: 0.7rem;
+        @media (max-width: $breakpoint-xl) {
+          width: 40px;
+          height: 40px;
+        }
       }
       .browserContainer__navbar__logoContainer__brand {
         font-size: 1.7rem;
+        white-space: nowrap;
+        @media (max-width: $breakpoint-xl) {
+          font-size: 1.4rem;
+        }
       }
     }
     .browserContainer__navbar__searchContainer {
@@ -81,18 +100,22 @@ export default {
       border-radius: 25px;
       padding: 0.7rem 1rem;
       gap: 0.6rem;
-      color: $text-dark;
+      @media (max-width: $breakpoint-md) {
+        display: none;
+      }
       .browserContainer__navbar__searchContainer__input {
         @include inputReset;
         font-size: 1rem;
         flex: 1;
         background: none;
+        color: $text-dark;
       }
       .browserContainer__navbar__searchContainer__submitButton {
         @include buttonReset;
         cursor: pointer;
         .browserContainer__navbar__searchContainer__submitButton__icon {
           font-size: 1rem;
+          color: $text-dark;
         }
       }
     }
@@ -100,11 +123,16 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 1.5rem;
       .browserContainer__navbar__linksContainer__link {
         font-size: 1.5rem;
         cursor: pointer;
         color: $green;
+        &.browserContainer__navbar__linksContainer__link--mobileLink {
+          @media (min-width: $breakpoint-md) {
+            display: none;
+          }
+        }
       }
     }
   }

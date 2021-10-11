@@ -17,3 +17,12 @@ $font-primary: 'Lato', sans-serif;
 $text-light: 300;
 $text-medium: 400;
 $text-bold: 700;
+
+/* Box Shadows */
+$browser-container-box-shadow: 2px 0px 10px 0px rgba(36, 36, 36, 0.67);
+
+/* Breakpoints */
+$breakpoint-xl: 1450px;
+$breakpoint-lg: 1350px;
+$breakpoint-md: 900px;
+$breakpoint-sm: 600px;
