@@ -6,12 +6,13 @@
         <h3 class="browserContainer__navbar__logoContainer__brand">Let's Drink</h3>
       </div>
       <div v-if="isMobileSearchOpen" class="browserContainer__navbar__mobileSearchContainer">
-        <font-awesome-icon 
-          class="browserContainer__navbar__mobileSearchContainer__icon" 
-          icon="arrow-left" 
-          title="Go Back"
-          @click="this.isMobileSearchOpen=false"
-        />
+        <Tooltip message="Go Back" placement="right">
+          <font-awesome-icon 
+            class="browserContainer__navbar__mobileSearchContainer__icon" 
+            icon="arrow-left" 
+            @click="this.isMobileSearchOpen=false"
+          />
+        </Tooltip>
         <div class="browserContainer__navbar__mobileSearchContainer__customSearch">
           <CustomSearchInput />  
         </div>
@@ -20,22 +21,25 @@
         <CustomSearchInput />
       </div>
       <div v-if="!isMobileSearchOpen" class="browserContainer__navbar__linksContainer">
-        <font-awesome-icon 
-          class="browserContainer__navbar__linksContainer__link browserContainer__navbar__linksContainer__link--mobileLink" 
-          icon="search" 
-          title="Search"
-          @click="this.isMobileSearchOpen=true"
-        />
-        <font-awesome-icon 
-          class="browserContainer__navbar__linksContainer__link" 
-          icon="history" 
-          title="History"
-        />
-        <font-awesome-icon 
-          class="browserContainer__navbar__linksContainer__link" 
-          icon="star" 
-          title="Favourites"
-        />
+        <Tooltip message="Search">
+          <font-awesome-icon 
+            class="browserContainer__navbar__linksContainer__link browserContainer__navbar__linksContainer__link--mobileLink" 
+            icon="search" 
+            @click="this.isMobileSearchOpen=true"
+          />
+        </Tooltip>
+        <Tooltip message="History">
+          <font-awesome-icon 
+            class="browserContainer__navbar__linksContainer__link" 
+            icon="history" 
+          />
+        </Tooltip>
+        <Tooltip message="Favourites">
+          <font-awesome-icon 
+            class="browserContainer__navbar__linksContainer__link" 
+            icon="star" 
+          />
+        </Tooltip>
       </div>
     </div>
   </div>
@@ -43,6 +47,7 @@
 
 <script>
 import CustomSearchInput from "./CustomSearchInput.vue";
+import Tooltip from "./Tooltip.vue";
 export default {
   name: 'PlacesBrowser',
   data() {
@@ -56,7 +61,7 @@ export default {
       this.isMobileSearchOpen = false;
     });
   },
-  components: { CustomSearchInput }, 
+  components: { CustomSearchInput, Tooltip }, 
 }
 </script>
 
