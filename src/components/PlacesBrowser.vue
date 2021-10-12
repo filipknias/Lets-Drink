@@ -1,5 +1,9 @@
 <template>
   <div class="browserContainer">
+    <div 
+      class="browserContainer__handle"
+      @mousedown="handleDragStart"
+    ></div>
     <div class="browserContainer__navbar">
       <div v-if="!isMobileSearchOpen" class="browserContainer__navbar__logoContainer">
         <img src="../assets/brandLogo.png" class="browserContainer__navbar__logoContainer__logo" />
@@ -61,6 +65,11 @@ export default {
       this.isMobileSearchOpen = false;
     });
   },
+  methods: {
+    handleDragStart(e) {
+      console.log(e.x);
+    }
+  },
   components: { CustomSearchInput, Tooltip }, 
 }
 </script>
@@ -83,6 +92,22 @@ export default {
   }
   @media (max-width: $breakpoint-md) {
     width: 100%;
+  }
+  .browserContainer__handle {
+    width: $browser-handle-scale;
+    height: $browser-handle-scale;
+    position: absolute;
+    top: 50%;
+    right: $browser-handle-right;
+    transform: $browser-handle-translate;
+    background-color: $browser-handle-bg;
+    box-shadow: $browser-handle-box-shadow;
+    border-radius: 50%;
+    cursor: grab;
+    transition: background-color 0.2s ease-in-out;
+    &:hover {
+      background-color: $browser-handle-bg-hover;
+    }
   }
   .browserContainer__navbar {
     padding: 1rem;

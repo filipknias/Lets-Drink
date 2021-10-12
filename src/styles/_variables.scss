@@ -5,6 +5,8 @@ $text-input-bg-color: #E4E8F0;
 $gray: #c7c7c7;
 $green: #54ca8b;
 $tooltip-bg: #000000;
+$browser-handle-bg: #F6E266;
+$browser-handle-bg-hover: #FFC250;
 
 /* Text Colors */
 $text-black: #000000;
@@ -21,6 +23,12 @@ $text-bold: 700;
 
 /* Box Shadows */
 $browser-container-box-shadow: 2px 0px 10px 0px rgba(36, 36, 36, 0.67);
+$browser-handle-box-shadow: 3px 3px 4px 0px rgba(36, 36, 36, 0.67);
+
+/* Dimensions */
+$browser-handle-scale: 40px;
+$browser-handle-right: calc(#{$browser-handle-scale} / 2);
+$browser-handle-translate: translate(calc(#{$browser-handle-right} + (#{$browser-handle-scale} / 2)), -50%);
 
 /* Breakpoints */
 $breakpoint-xl: 1500px;
