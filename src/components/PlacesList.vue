@@ -11,23 +11,19 @@
 
 <script>
 import PlaceListElement from "./PlaceListElement.vue";
-import { BREWERY_API_BASE_URL as API } from "../constants";
-import axios from "axios";
 export default {
   name: 'PlacesList',
   props: {
     label: { type: String },
+    places: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
-      places: [],
-      page: 1,
+      
     }
-  },
-  async mounted() {
-    // Fetch places from api
-    const { data } = await axios.get(`${API}/breweries?page=${this.page}`);
-    this.places = data;
   },
   components: { PlaceListElement },
 }

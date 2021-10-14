@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div id="map" class="map"></div>
-    <PlacesBrowser />
+    <PlacesBrowser 
+      :places="places" 
+      v-on:places-changed="handlePlacesChange" 
+    />
   </div>
 </template>
 
@@ -10,11 +13,15 @@ import "./styles/index.scss";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import PlacesBrowser from "./components/PlacesBrowser.vue";
+import { BREWERY_API_BASE_URL as API } from "./constants";
+import axios from "axios";
 export default {
   name: 'App',
   data() {
     return {
       map: null,
+      places: [],
+      page: 1,
     }
   },  
   mounted() {
@@ -26,6 +33,11 @@ export default {
       center: [-74.5, 40], // Set first brewery coords
       zoom: 12,
     });
+  },
+  async mounted() {
+    // Fetch places from api
+    const { data } = await axios.get(`${API}/breweries?page=${this.page}`);
+    this.places = data;
   },
   components: { PlacesBrowser },
 };

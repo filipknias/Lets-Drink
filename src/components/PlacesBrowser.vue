@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="browserContainer__content">
-      <PlacesList label="Places" />
+      <PlacesList label="Places" :places="places" />
     </div>
   </div>
 </template>
@@ -58,6 +58,12 @@ import PlacesList from "./PlacesList.vue";
 
 export default {
   name: 'PlacesBrowser',
+  props: {
+    places: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       isMobileSearchOpen: false,
@@ -69,7 +75,7 @@ export default {
     window.addEventListener("resize", () => {
       this.isMobileSearchOpen = false;
     });      
-  },
+  }, 
   components: { CustomSearchInput, Tooltip, PlacesList }, 
 }
 </script>
