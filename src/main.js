@@ -8,11 +8,26 @@ import {
     faStar, 
     faSearch, 
     faArrowLeft, 
+    faAngleRight,
     faAngleDoubleLeft, 
     faAngleDoubleRight, 
+    faMapMarkerAlt,
+    faMap,
+    faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 
-const icons = [faHistory, faStar, faSearch, faArrowLeft, faAngleDoubleLeft, faAngleDoubleRight];
+const icons = [
+    faHistory, 
+    faStar, 
+    faSearch, 
+    faArrowLeft, 
+    faAngleDoubleLeft, 
+    faAngleDoubleRight, 
+    faAngleRight,
+    faMapMarkerAlt,
+    faMap,
+    faPhone,
+];
 library.add(icons);
 
 createApp(App)

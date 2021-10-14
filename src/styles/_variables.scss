@@ -4,9 +4,11 @@ $browser-bg-color: #fafafa;
 $text-input-bg-color: #E4E8F0;
 $gray: #c7c7c7;
 $green: #54ca8b;
+$green-hover: #3fb476;
 $tooltip-bg: #000000;
 $browser-handle-bg: #F6E266;
 $browser-handle-bg-hover: #FFC250;
+$badge-bg-color: rgba(84, 202, 139, 0.6);
 
 /* Text Colors */
 $text-black: #000000;
@@ -24,11 +26,13 @@ $text-bold: 700;
 /* Box Shadows */
 $browser-container-box-shadow: 2px 0px 10px 0px rgba(36, 36, 36, 0.67);
 $browser-handle-box-shadow: 3px 3px 4px 0px rgba(36, 36, 36, 0.67);
+$place-container-box-shadow: 1px 1px 5px 0px rgba(100, 100, 100, 0.75);
 
 /* Dimensions */
 $browser-handle-scale: 40px;
 $browser-handle-right: calc(#{$browser-handle-scale} / 2);
 $browser-handle-translate: translate(calc(#{$browser-handle-right} + (#{$browser-handle-scale} / 2)), -50%);
+$place-container-bottom-section-font-size: 0.8rem;
 
 /* Breakpoints */
 $breakpoint-xl: 1500px;
