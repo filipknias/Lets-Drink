@@ -6,3 +6,11 @@
 @mixin buttonReset {
   border: none;
 }
+
+@mixin resetScrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

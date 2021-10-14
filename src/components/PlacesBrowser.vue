@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="browserContainer__content">
-      <PlacesList :places="places" label="Places" />
+      <PlacesList label="Places" />
     </div>
   </div>
 </template>
@@ -55,72 +55,13 @@
 import CustomSearchInput from "./CustomSearchInput.vue";
 import Tooltip from "./Tooltip.vue";
 import PlacesList from "./PlacesList.vue";
-const places = [
-  {
-        "id": "bnaf-llc-austin",
-        "name": "Bnaf, LLC",
-        "brewery_type": "planning",
-        "street": null,
-        "address_2": null,
-        "address_3": null,
-        "city": "Austin",
-        "state": "Texas",
-        "county_province": null,
-        "postal_code": "78727-7602",
-        "country": "United States",
-        "longitude": null,
-        "latitude": null,
-        "phone": null,
-        "website_url": null,
-        "updated_at": "2018-07-24T00:00:00.000Z",
-        "created_at": "2018-07-24T00:00:00.000Z"
-    },
-    {
-        "id": "boulder-beer-co-boulder",
-        "name": "Boulder Beer Co",
-        "brewery_type": "regional",
-        "street": "2880 Wilderness Pl",
-        "address_2": null,
-        "address_3": null,
-        "city": "Boulder",
-        "state": "Colorado",
-        "county_province": null,
-        "postal_code": "80301-5401",
-        "country": "United States",
-        "longitude": "-105.2480158",
-        "latitude": "40.026439",
-        "phone": null,
-        "website_url": null,
-        "updated_at": "2018-08-24T00:00:00.000Z",
-        "created_at": "2018-07-24T00:00:00.000Z"
-    },
-    {
-        "id": "clermont-brewing-company-clermont",
-        "name": "Clermont Brewing Company",
-        "brewery_type": "planning",
-        "street": null,
-        "address_2": null,
-        "address_3": null,
-        "city": "Clermont",
-        "state": "Florida",
-        "county_province": null,
-        "postal_code": "34711-2108",
-        "country": "United States",
-        "longitude": null,
-        "latitude": null,
-        "phone": null,
-        "website_url": null,
-        "updated_at": "2018-08-11T00:00:00.000Z",
-        "created_at": "2018-07-24T00:00:00.000Z"
-    },
-];
+
 export default {
   name: 'PlacesBrowser',
   data() {
     return {
       isMobileSearchOpen: false,
       browserHidden: false,
-      places,
     }
   },
   mounted() {
@@ -147,6 +88,8 @@ export default {
   height: 100%;
   box-shadow: $browser-container-box-shadow;
   transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
   &.browserContainer--hidden {
     transform: translateX(-100%);
     .browserContainer__handle {
@@ -175,7 +118,7 @@ export default {
     &:hover {
       background-color: $browser-handle-bg-hover;
     }
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $breakpoint-md) {
       right: $browser-handle-scale;
     }
   }
@@ -246,7 +189,13 @@ export default {
     }
   }
   .browserContainer__content {
-    padding: 1.5rem 1rem;
+    padding: 1rem $browser-handle-scale 1rem 1.5rem;
+    flex: 1;
+    overflow-y: scroll;
+    @include resetScrollbar;
+    @media (max-width: $breakpoint-md) {
+      padding: 1.5rem 1rem;
+    }
   }
 }
 </style>
