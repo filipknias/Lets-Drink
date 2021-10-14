@@ -3,9 +3,16 @@ import App from './App.vue';
 import './registerServiceWorker';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faHistory, faStar, faSearch, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { 
+    faHistory, 
+    faStar, 
+    faSearch, 
+    faArrowLeft, 
+    faAngleDoubleLeft, 
+    faAngleDoubleRight, 
+} from "@fortawesome/free-solid-svg-icons";
 
-const icons = [faHistory, faStar, faSearch, faArrowLeft];
+const icons = [faHistory, faStar, faSearch, faArrowLeft, faAngleDoubleLeft, faAngleDoubleRight];
 library.add(icons);
 
 createApp(App)

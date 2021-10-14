@@ -1,9 +1,8 @@
 <template>
-  <div class="browserContainer">
-    <div 
-      class="browserContainer__handle"
-      @mousedown="handleDragStart"
-    ></div>
+  <div :class="['browserContainer', { 'browserContainer--hidden': browserHidden }]"> 
+    <div class="browserContainer__handle" @click="browserHidden=!browserHidden">
+      <font-awesome-icon :icon="browserHidden ? 'angle-double-right' : 'angle-double-left'" />
+    </div>
     <div class="browserContainer__navbar">
       <div v-if="!isMobileSearchOpen" class="browserContainer__navbar__logoContainer">
         <img src="../assets/brandLogo.png" class="browserContainer__navbar__logoContainer__logo" />
@@ -14,7 +13,7 @@
           <font-awesome-icon 
             class="browserContainer__navbar__mobileSearchContainer__icon" 
             icon="arrow-left" 
-            @click="this.isMobileSearchOpen=false"
+            @click="isMobileSearchOpen=false"
           />
         </Tooltip>
         <div class="browserContainer__navbar__mobileSearchContainer__customSearch">
@@ -57,18 +56,14 @@ export default {
   data() {
     return {
       isMobileSearchOpen: false,
+      browserHidden: false,
     }
   },
   mounted() {
     // Set mobile search open state to false on resize
     window.addEventListener("resize", () => {
       this.isMobileSearchOpen = false;
-    });
-  },
-  methods: {
-    handleDragStart(e) {
-      console.log(e.x);
-    }
+    });      
   },
   components: { CustomSearchInput, Tooltip }, 
 }
@@ -84,11 +79,15 @@ export default {
   top: 0;
   left: 0;
   z-index: 10;
-  width: 40%;
+  width: 50%;
   height: 100%;
   box-shadow: $browser-container-box-shadow;
-  @media (max-width: $breakpoint-lg) {
-    width: 60%;
+  transition: transform 0.2s ease-in-out;
+  &.browserContainer--hidden {
+    transform: translateX(-100%);
+    .browserContainer__handle {
+      right: 0;
+    }
   }
   @media (max-width: $breakpoint-md) {
     width: 100%;
@@ -103,10 +102,16 @@ export default {
     background-color: $browser-handle-bg;
     box-shadow: $browser-handle-box-shadow;
     border-radius: 50%;
-    cursor: grab;
+    cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &:hover {
       background-color: $browser-handle-bg-hover;
+    }
+    @media (max-width: $breakpoint-lg) {
+      right: $browser-handle-scale;
     }
   }
   .browserContainer__navbar {
