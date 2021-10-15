@@ -34,7 +34,7 @@ export default {
         content: attr(data-tooltip);
         position: absolute;
         left: 0px;
-        top: 35px;
+        top: 110%;
         transform: translateX(-55%);
         background-color: $tooltip-bg;
         color: $text-white;

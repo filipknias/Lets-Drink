@@ -57,6 +57,10 @@ export default {
     padding: 0.7rem;
     @media (max-width: $breakpoint-sm) {
       gap: 0.8rem;
+      cursor: pointer;
+    }
+    @media (min-width: $breakpoint-sm) {
+      pointer-events: none;
     }
     .place__center { 
       flex: 1;
@@ -73,6 +77,7 @@ export default {
         margin-top: 0.2rem;
         @media (max-width: $breakpoint-sm) {
           gap: 0.5rem;
+          justify-content: space-between;
         }
         .place__center__bottomInfo__item {
           display: flex;
@@ -104,7 +109,11 @@ export default {
         display: flex;
         align-items: center;
         gap: 1rem;
+        @media (max-width: $breakpoint-sm) {
+          display: none;
+        }
         .place__right__button {
+          pointer-events: all;
           @include buttonReset;
           cursor: pointer;
           width: 40px;
