@@ -6,11 +6,11 @@
         <div class="place__center__bottomInfo">
           <div class="place__center__bottomInfo__item">
             <font-awesome-icon icon="map-marker-alt" class="place__center__bottomInfo__item__icon" />
-            <h4 class="place__center__bottomInfo__item__text">Example Address</h4>
+            <h4 class="place__center__bottomInfo__item__text">{{ formattedAddress }}</h4>
           </div>
           <div class="place__center__bottomInfo__item">
             <font-awesome-icon icon="phone" class="place__center__bottomInfo__item__icon" />
-            <h4 class="place__center__bottomInfo__item__text">123456789</h4>
+            <h4 class="place__center__bottomInfo__item__text">{{ place.phone || "Unknown" }}</h4>
           </div>
           <div class="place__center__bottomInfo__badge">{{ place.brewery_type }}</div>
         </div>
@@ -38,6 +38,12 @@ export default {
     place: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    formattedAddress() {
+      if (this.place.street === null) return "Unknown";
+      return `${this.place.street}, ${this.place.country}`;
     },
   },
   components: { Tooltip },
@@ -90,7 +96,6 @@ export default {
           .place__center__bottomInfo__item__text {
             font-size: $place-container-bottom-section-font-size;
             color: $text-dark;
-            white-space: nowrap;
             @media (max-width: $breakpoint-sm) {
               font-size: 0.7rem;
             }
