@@ -13,7 +13,11 @@
       </div>
     </div>
     <div class="browserContainer__content" @scroll="handleBrowserScroll">
-      <PlacesList label="Places" :places="places" />
+      <PlacesList 
+        label="Places" 
+        :places="places" 
+        v-on:query-params-changed="(queryParams) => $emit('query-params-changed', queryParams)"
+      />
     </div>
   </div>
 </template>

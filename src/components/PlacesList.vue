@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       label: "Places",
-      selectedFilter: "location",
+      selectedFilter: "all",
     }
   },
   watch: {
@@ -44,9 +44,8 @@ export default {
         case "location": {
           this.label = "Breweries around you";
           if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(({ coords }) => {
-              console.log(coords.longitude, coords.latitude);
-              
+            navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+              this.$emit("query-params-changed", { by_dist: `${coords.latitude},${coords.longitude}` });
             });
           }
           break;

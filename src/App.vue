@@ -3,7 +3,7 @@
     <div id="map" class="map"></div>
     <PlacesBrowser 
       :places="places" 
-      v-on:places-changed="handlePlacesChange"
+      v-on:query-params-changed="handleParamsChange"
       v-on:next-page="page=page+1" 
     />
   </div>
@@ -14,7 +14,7 @@ import "./styles/index.scss";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import PlacesBrowser from "./components/PlacesBrowser.vue";
-import { BREWERY_API_BASE_URL as API } from "./helpers/constants";
+import { BREWERY_API_BASE_URL as API } from "./constants";
 import axios from "axios";
 export default {
   name: 'App',
@@ -23,7 +23,18 @@ export default {
       map: null,
       places: [],
       page: 1,
+      queryParams: {},
     }
+  },  
+  methods: {
+    handleParamsChange(newParams) {
+      this.queryParams = { ...this.queryParams, ...newParams };
+    },
+  },
+  computed: {
+    queryParamsString() {
+      return Object.entries(this.queryParams).map(([key, value]) => `${key}=${value}`).join("&");
+    },
   },  
   async mounted() {
     // Setup mapbox
@@ -41,8 +52,14 @@ export default {
   watch: {
     async page(currentPage) {
       // Fetch next page from api
-      const { data } = await axios.get(`${API}/breweries?page=${currentPage}`);
+      const { data } = await axios.get(`${API}/breweries?page=${currentPage}&${this.queryParamsString}`);
       this.places = [...this.places, ...data];
+    },
+    async queryParams() {
+      // Fetch data from api with changed query params
+      this.page = 1;
+      const { data } = await axios.get(`${API}/breweries?page=${this.page}&${this.queryParamsString}`);
+      this.places = data;      
     },
   },
   components: { PlacesBrowser },
