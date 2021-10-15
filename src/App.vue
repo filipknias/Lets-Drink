@@ -3,7 +3,8 @@
     <div id="map" class="map"></div>
     <PlacesBrowser 
       :places="places" 
-      v-on:places-changed="handlePlacesChange" 
+      v-on:places-changed="handlePlacesChange"
+      v-on:next-page="page=page+1" 
     />
   </div>
 </template>
@@ -24,7 +25,7 @@ export default {
       page: 1,
     }
   },  
-  mounted() {
+  async mounted() {
     // Setup mapbox
     mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_TOKEN;
     this.map = new mapboxgl.Map({
@@ -33,11 +34,16 @@ export default {
       center: [-74.5, 40], // Set first brewery coords
       zoom: 12,
     });
-  },
-  async mounted() {
     // Fetch places from api
     const { data } = await axios.get(`${API}/breweries?page=${this.page}`);
     this.places = data;
+  },
+  watch: {
+    async page(currentPage) {
+      // Fetch next page from api
+      const { data } = await axios.get(`${API}/breweries?page=${currentPage}`);
+      this.places = [...this.places, ...data];
+    },
   },
   components: { PlacesBrowser },
 };

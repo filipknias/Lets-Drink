@@ -45,7 +45,7 @@
         </Tooltip>
       </div>
     </div>
-    <div class="browserContainer__content">
+    <div class="browserContainer__content" @scroll="handleBrowserScroll">
       <PlacesList label="Places" :places="places" />
     </div>
   </div>
@@ -75,7 +75,15 @@ export default {
     window.addEventListener("resize", () => {
       this.isMobileSearchOpen = false;
     });      
-  }, 
+  },
+  methods: {
+    handleBrowserScroll({ target }) {
+      // Check if scrolled to bottom of the list
+      if (target.scrollTop + target.clientHeight >= target.scrollHeight) {
+        this.$emit("next-page");
+      }
+    },
+  },
   components: { CustomSearchInput, Tooltip, PlacesList }, 
 }
 </script>
