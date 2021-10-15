@@ -1,16 +1,16 @@
 <template>
   <li class="place">
-      <img src="https://www.countryflags.io/us/flat/48.png" class="placesList__item__flag">
+      <img v-if="place.country" :src="flagImageSource" class="placesList__item__flag">
       <div class="place__center">
         <h1 class="place__center__header">{{ place.name }}</h1>
         <div class="place__center__bottomInfo">
           <div class="place__center__bottomInfo__item">
             <font-awesome-icon icon="map-marker-alt" class="place__center__bottomInfo__item__icon" />
-            <h4 class="place__center__bottomInfo__item__text">{{ formattedAddress }}</h4>
+            <h4 class="place__center__bottomInfo__item__text">{{ preventNullValue(place.street) }}</h4>
           </div>
           <div class="place__center__bottomInfo__item">
             <font-awesome-icon icon="phone" class="place__center__bottomInfo__item__icon" />
-            <h4 class="place__center__bottomInfo__item__text">{{ place.phone || "Unknown" }}</h4>
+            <h4 class="place__center__bottomInfo__item__text">{{ preventNullValue(place.phone) }}</h4>
           </div>
           <div class="place__center__bottomInfo__badge">{{ place.brewery_type }}</div>
         </div>
@@ -32,6 +32,7 @@
 
 <script>
 import Tooltip from "./Tooltip.vue";
+import { COUNTRY_FLAGS_BASE_URL as API } from "../constants";
 export default {
   name: 'PlaceListElement',
   props: {
@@ -40,10 +41,34 @@ export default {
       required: true,
     },
   },
+  methods: {
+    preventNullValue(value) {
+      if (value === null) return "Unknown";
+      else return value;
+    },
+  },
   computed: {
-    formattedAddress() {
-      if (this.place.street === null) return "Unknown";
-      return `${this.place.street}, ${this.place.country}`;
+    flagImageSource() {
+      let formattedCountryName = null;
+      switch(this.place.country) {
+        case "United States": {
+          formattedCountryName = "us";
+          break;
+        };
+        case "England": {
+          formattedCountryName = "gb";
+          break;
+        };
+        case "Ireland": {
+          formattedCountryName = "ie";
+          break;
+        };
+        case "Scotland": {
+          formattedCountryName = "gb";
+          break;
+        };
+      }
+      return `${API}/${formattedCountryName}/flat/48.png`;
     },
   },
   components: { Tooltip },
