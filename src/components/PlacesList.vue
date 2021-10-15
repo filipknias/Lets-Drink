@@ -1,5 +1,13 @@
 <template>
-<h2 class="label">{{ label }}</h2>
+<div class="topbar">
+  <h2 class="topbar__label">{{ label }}</h2>
+  <select class="topbar__select" v-model="selectedFilter">
+    <option value="location">By Location</option>
+    <option value="contry">By Country</option>
+    <option value="favourite">Favourite</option>
+    <option value="history">History</option>
+  </select>
+</div>
 <ul class="list">
   <PlaceListElement 
     v-for="place in places" 
@@ -14,19 +22,66 @@ import PlaceListElement from "./PlaceListElement.vue";
 export default {
   name: 'PlacesList',
   props: {
-    label: { type: String },
     places: {
       type: Array,
       required: true,
     },
   },
+  data() {
+    return {
+      label: "Places",
+      selectedFilter: "location",
+      selectedCountry: "United States",
+    }
+  },
+  watch: {
+    selectedFilter(newFilter) {
+      switch (newFilter) {
+        case "location": {
+          this.label = "Breweries around you";
+          // TODO: Fetch places by distance
+          break;
+        };
+        case "country": {
+          this.label = `Breweries in ${this.selectedCountry}`;
+          // TODO: Fetch places by country
+          break;
+        };
+        case "favourite": {
+          this.label = "Your favourite breweries";
+          // TODO: Take id's from local storage and fetch them
+          break;
+        };
+        case "history": {
+          this.label = "Your search history";
+          // TODO: Take id's from local storage and fetch them
+          break;
+        };
+      }
+    },
+  }, 
   components: { PlaceListElement },
 }
 </script>
 
 <style lang="scss" scoped>
-.label {
-  font-size: 1.4rem;
+@import "../styles/variables";
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  .topbar__label {
+    font-size: 1.4rem;
+  }
+  .topbar__select {
+    width: 150px;
+    padding: 0.5rem;
+    font-family: $font-primary;
+    font-size: 1rem;
+    border-radius: 5px;
+    outline: none;
+  }
 }
 .list {
   margin: 1.2rem 0rem;
