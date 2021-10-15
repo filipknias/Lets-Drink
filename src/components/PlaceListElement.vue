@@ -32,7 +32,7 @@
 
 <script>
 import Tooltip from "./Tooltip.vue";
-import { COUNTRY_FLAGS_BASE_URL as API } from "../constants";
+import { COUNTRY_FLAGS_BASE_URL as API } from "../helpers/constants";
 export default {
   name: 'PlaceListElement',
   props: {

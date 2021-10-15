@@ -14,7 +14,7 @@ import "./styles/index.scss";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import PlacesBrowser from "./components/PlacesBrowser.vue";
-import { BREWERY_API_BASE_URL as API } from "./constants";
+import { BREWERY_API_BASE_URL as API } from "./helpers/constants";
 import axios from "axios";
 export default {
   name: 'App',

@@ -2,8 +2,8 @@
 <div class="topbar">
   <h2 class="topbar__label">{{ label }}</h2>
   <select class="topbar__select" v-model="selectedFilter">
+    <option value="all">All</option>
     <option value="location">By Location</option>
-    <option value="contry">By Country</option>
     <option value="favourite">Favourite</option>
     <option value="history">History</option>
   </select>
@@ -31,20 +31,24 @@ export default {
     return {
       label: "Places",
       selectedFilter: "location",
-      selectedCountry: "United States",
     }
   },
   watch: {
     selectedFilter(newFilter) {
       switch (newFilter) {
-        case "location": {
+        case "all": {
           this.label = "Breweries around you";
-          // TODO: Fetch places by distance
+          // TODO: Fetch all breweries
           break;
         };
-        case "country": {
-          this.label = `Breweries in ${this.selectedCountry}`;
-          // TODO: Fetch places by country
+        case "location": {
+          this.label = "Breweries around you";
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(({ coords }) => {
+              console.log(coords.longitude, coords.latitude);
+              
+            });
+          }
           break;
         };
         case "favourite": {
