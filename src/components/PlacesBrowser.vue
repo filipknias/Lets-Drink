@@ -17,6 +17,7 @@
         label="Places" 
         :places="places" 
         v-on:query-params-changed="(queryParams) => $emit('query-params-changed', queryParams)"
+        v-on:places-changed="(places) => $emit('places-changed', places)"
       />
     </div>
   </div>
@@ -43,7 +44,7 @@ export default {
     handleBrowserScroll({ target }) {
       // Check if scrolled to bottom of the list
       if (target.scrollTop + target.clientHeight >= target.scrollHeight) {
-        this.$emit("next-page");
+        this.$emit("next-page"); 
       }
     },
   },

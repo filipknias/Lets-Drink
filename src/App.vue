@@ -5,6 +5,7 @@
       :places="places" 
       v-on:query-params-changed="handleParamsChange"
       v-on:next-page="handleNextPage" 
+      v-on:places-changed="handlePlacesChange"
     />
   </div>
 </template>
@@ -27,11 +28,16 @@ export default {
   },  
   methods: {
     handleNextPage() {
+      if (this.queryParams === null) return;
       this.queryParams = { ...this.queryParams, page: this.queryParams.page + 1 };
     },
     handleParamsChange(newParams) {
       this.queryParams = newParams;
       this.places = [];
+    },
+    handlePlacesChange(places) {
+      this.queryParams = null;
+      this.places = places;
     },
   },
   computed: {
@@ -53,8 +59,8 @@ export default {
     this.places = data;
   },
   watch: {
-    async queryParams() {
-      console.log(this.queryParams)
+    async queryParams(params) {
+      if (params === null) return;
       // Fetch data from api with changed query params
       const { data } = await axios.get(`${API}/breweries?${this.queryParamsString}`);
       this.places = [...this.places, ...data];      

@@ -5,7 +5,6 @@
     <option value="all">All</option>
     <option value="location">By Location</option>
     <option value="favourite">Favourite</option>
-    <option value="history">History</option>
   </select>
 </div>
 <ul class="list">
@@ -19,6 +18,8 @@
 
 <script>
 import PlaceListElement from "./PlaceListElement.vue";
+import { BREWERY_API_BASE_URL as API, FAVOURITE_PLACES_LOCAL_STORAGE_KEY as LOCAL_STORAGE_KEY } from "../constants";
+import axios from "axios";
 export default {
   name: 'PlacesList',
   props: {
@@ -34,7 +35,7 @@ export default {
     }
   },
   watch: {
-    selectedFilter(newFilter) {
+    async selectedFilter(newFilter) {
       switch (newFilter) {
         case "all": {
           this.label = "Breweries around the world";
@@ -42,7 +43,7 @@ export default {
           break;
         };
         case "location": {
-          this.label = "Breweries around you";
+          this.label = "Breweries around your area";
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(({ coords }) => {
               this.$emit("query-params-changed", { page: 1, by_dist: `${coords.latitude},${coords.longitude}` });
@@ -52,12 +53,16 @@ export default {
         };
         case "favourite": {
           this.label = "Your favourite breweries";
-          // TODO: Take id's from local storage and fetch them
-          break;
-        };
-        case "history": {
-          this.label = "Your search history";
-          // TODO: Take id's from local storage and fetch them
+          // Take id's from local storage and fetch them
+          const favouritePlaces = localStorage.getItem(LOCAL_STORAGE_KEY);
+          const parsedPlaces = JSON.parse(favouritePlaces);
+          if (!parsedPlaces) return this.$emit("places-changed", []);
+          const placesPromises = parsedPlaces.map(async (id) => {
+            const { data } = await axios.get(`${API}/breweries/${id}`);
+            return data;
+          });
+          const places = await Promise.all(placesPromises);
+          this.$emit("places-changed", places);
           break;
         };
       }

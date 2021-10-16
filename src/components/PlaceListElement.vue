@@ -63,6 +63,18 @@ export default {
     },
     handleFavouriteToggle() {
       this.isFavourite = !this.isFavourite;
+      const storageItems = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const parsedItems = JSON.parse(storageItems);
+      if (this.isFavourite) {
+        // Add to local storage
+        let itemsToSave = [this.place.id];
+        if (parsedItems) itemsToSave = itemsToSave.concat(parsedItems);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(itemsToSave));
+      } else {
+        // Remove from local storage
+        const updatedItems = parsedItems.filter((id) => id !== this.place.id);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedItems));
+      }
     },
   },
   computed: {
@@ -87,23 +99,6 @@ export default {
         };
       }
       return `${API}/${formattedCountryName}/flat/48.png`;
-    },
-  },
-  watch: {
-    isFavourite(favourite) {
-      console.log(favourite)
-      const storageItems = localStorage.getItem(LOCAL_STORAGE_KEY);
-      const parsedItems = JSON.parse(storageItems);
-      if (favourite) {
-        // Add to local storage
-        let itemsToSave = [this.place.id];
-        if (parsedItems) itemsToSave = itemsToSave.concat(parsedItems);
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(itemsToSave));
-      } else {
-        // Remove from local storage
-        const updatedItems = parsedItems.filter((id) => id !== this.place.id);
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedItems));
-      }
     },
   },
   components: { Tooltip },
