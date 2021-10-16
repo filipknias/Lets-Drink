@@ -1,7 +1,7 @@
 <template>
-  <form class="searchContainer">
-    <button type="submit" class="searchContainer__submitButton">
-      <font-awesome-icon icon="search" class="searchContainer__submitButton__icon" />
+  <div class="searchContainer">
+    <button type="button" class="searchContainer__button">
+      <font-awesome-icon icon="search" class="searchContainer__button__icon" />
     </button>
     <input
       type="text" 
@@ -9,7 +9,15 @@
       placeholder="Search"
       v-model="searchInput"
     />
-  </form>
+    <button 
+      v-if="searchInput!==''" 
+      type="button" 
+      class="searchContainer__button"
+      @click="searchInput=''"
+    >
+      <font-awesome-icon icon="times" class="searchContainer__button__icon" />
+    </button>
+  </div>
 </template>
 
 <script>
@@ -46,10 +54,10 @@ export default {
     background: none;
     color: $text-dark;
   }
-  .searchContainer__submitButton {
+  .searchContainer__button {
     @include buttonReset;
     cursor: pointer;
-    .searchContainer__submitButton__icon {
+    .searchContainer__button__icon {
       font-size: 1rem;
       color: $text-dark;
     }

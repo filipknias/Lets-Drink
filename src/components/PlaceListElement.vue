@@ -6,7 +6,7 @@
         <div class="place__center__bottomInfo">
           <div class="place__center__bottomInfo__item">
             <font-awesome-icon icon="map-marker-alt" class="place__center__bottomInfo__item__icon" />
-            <h4 class="place__center__bottomInfo__item__text">{{ preventNullValue(place.street) }}</h4>
+            <h4 class="place__center__bottomInfo__item__text">{{ preventNullValue(place.city) }}</h4>
           </div>
           <div class="place__center__bottomInfo__item">
             <font-awesome-icon icon="phone" class="place__center__bottomInfo__item__icon" />
