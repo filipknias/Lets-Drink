@@ -21,9 +21,12 @@
             <font-awesome-icon icon="map" class="place__right__button__icon" />
           </button>
         </Tooltip>
-        <Tooltip message="Add to favourites">
-          <button class="place__right__button">
-            <font-awesome-icon icon="star" class="place__right__button__icon" />
+        <Tooltip :message="isFavourite ? 'Remove from favourites' : 'Add to favourites'">
+          <button class="place__right__button" @click="handleFavouriteToggle">
+            <font-awesome-icon 
+              icon="star" 
+              :class="['place__right__button__icon', { 'place__right__button__icon--favourite': isFavourite }]" 
+            />
           </button>
         </Tooltip>
       </div>
@@ -32,7 +35,7 @@
 
 <script>
 import Tooltip from "./Tooltip.vue";
-import { COUNTRY_FLAGS_BASE_URL as API } from "../constants";
+import { COUNTRY_FLAGS_BASE_URL as API, FAVOURITE_PLACES_LOCAL_STORAGE_KEY as LOCAL_STORAGE_KEY } from "../constants";
 export default {
   name: 'PlaceListElement',
   props: {
@@ -41,10 +44,25 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      isFavourite: false,
+    }
+  },
+  mounted() {
+    // Check if place is saved in favourites
+    const favouriteItems = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const parsedItems = JSON.parse(favouriteItems);
+    if (parsedItems && parsedItems.some((id) => id === this.place.id)) this.isFavourite = true;
+    else this.isFavourite = false;
+  },
   methods: {
     preventNullValue(value) {
       if (value === null) return "Unknown";
       else return value;
+    },
+    handleFavouriteToggle() {
+      this.isFavourite = !this.isFavourite;
     },
   },
   computed: {
@@ -69,6 +87,23 @@ export default {
         };
       }
       return `${API}/${formattedCountryName}/flat/48.png`;
+    },
+  },
+  watch: {
+    isFavourite(favourite) {
+      console.log(favourite)
+      const storageItems = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const parsedItems = JSON.parse(storageItems);
+      if (favourite) {
+        // Add to local storage
+        let itemsToSave = [this.place.id];
+        if (parsedItems) itemsToSave = itemsToSave.concat(parsedItems);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(itemsToSave));
+      } else {
+        // Remove from local storage
+        const updatedItems = parsedItems.filter((id) => id !== this.place.id);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedItems));
+      }
     },
   },
   components: { Tooltip },
@@ -160,6 +195,9 @@ export default {
           .place__right__button__icon {
             color: white;
             font-size: 1rem;
+            &.place__right__button__icon--favourite {
+              color: $favourite-icon-color;
+            }
           }
         }
       }
