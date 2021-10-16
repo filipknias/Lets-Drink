@@ -130,6 +130,9 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      @media (max-width: $breakpoint-sm) {
+        display: none;
+      }
       .browserContainer__navbar__logoContainer__logo {
         width: 50px;
         height: 50px;
@@ -145,9 +148,6 @@ export default {
         @media (max-width: $breakpoint-xl) {
           font-size: 1.4rem;
         }
-        @media (max-width: $breakpoint-sm) {
-          display: none;
-        }
       }
     }
     .browserContainer__navbar__customSearch {
@@ -157,6 +157,9 @@ export default {
       @include selectStyles(150px);
       @media (max-width: $breakpoint-lg) {
         width: 100px;
+      }
+      @media (max-width: $breakpoint-sm) {
+        // width: 50px;
       }
     }
   }

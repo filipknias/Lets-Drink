@@ -82,9 +82,15 @@ export default {
   width: 100%;
   .topbar__label {
     font-size: 1.4rem;
+    @media (max-width: $breakpoint-sm) {
+     font-size: 1rem;
+    }
   }
   .topbar__select {
     @include selectStyles(150px);
+    @media (max-width: $breakpoint-md) {
+      width: 100px;
+    }
   }
 }
 .list {

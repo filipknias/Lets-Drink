@@ -137,8 +137,7 @@ export default {
         gap: 1rem;
         margin-top: 0.2rem;
         @media (max-width: $breakpoint-sm) {
-          gap: 0.5rem;
-          justify-content: space-between;
+          gap: 0.7rem;
         }
         .place__center__bottomInfo__item {
           display: flex;
