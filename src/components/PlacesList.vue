@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      label: "Places",
+      label: "Breweries around the world",
       selectedFilter: "all",
     }
   },
@@ -37,15 +37,15 @@ export default {
     selectedFilter(newFilter) {
       switch (newFilter) {
         case "all": {
-          this.label = "Breweries around you";
-          // TODO: Fetch all breweries
+          this.label = "Breweries around the world";
+          this.$emit("query-params-changed", { page: 1 });
           break;
         };
         case "location": {
           this.label = "Breweries around you";
           if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(async ({ coords }) => {
-              this.$emit("query-params-changed", { by_dist: `${coords.latitude},${coords.longitude}` });
+            navigator.geolocation.getCurrentPosition(({ coords }) => {
+              this.$emit("query-params-changed", { page: 1, by_dist: `${coords.latitude},${coords.longitude}` });
             });
           }
           break;

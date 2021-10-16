@@ -4,7 +4,7 @@
     <PlacesBrowser 
       :places="places" 
       v-on:query-params-changed="handleParamsChange"
-      v-on:next-page="page=page+1" 
+      v-on:next-page="handleNextPage" 
     />
   </div>
 </template>
@@ -22,13 +22,16 @@ export default {
     return {
       map: null,
       places: [],
-      page: 1,
-      queryParams: {},
+      queryParams: { page: 1 },
     }
   },  
   methods: {
+    handleNextPage() {
+      this.queryParams = { ...this.queryParams, page: this.queryParams.page + 1 };
+    },
     handleParamsChange(newParams) {
-      this.queryParams = { ...this.queryParams, ...newParams };
+      this.queryParams = newParams;
+      this.places = [];
     },
   },
   computed: {
@@ -46,20 +49,15 @@ export default {
       zoom: 12,
     });
     // Fetch places from api
-    const { data } = await axios.get(`${API}/breweries?page=${this.page}`);
+    const { data } = await axios.get(`${API}/breweries?page=${this.queryParams.page}`);
     this.places = data;
   },
   watch: {
-    async page(currentPage) {
-      // Fetch next page from api
-      const { data } = await axios.get(`${API}/breweries?page=${currentPage}&${this.queryParamsString}`);
-      this.places = [...this.places, ...data];
-    },
     async queryParams() {
+      console.log(this.queryParams)
       // Fetch data from api with changed query params
-      this.page = 1;
-      const { data } = await axios.get(`${API}/breweries?page=${this.page}&${this.queryParamsString}`);
-      this.places = data;      
+      const { data } = await axios.get(`${API}/breweries?${this.queryParamsString}`);
+      this.places = [...this.places, ...data];      
     },
   },
   components: { PlacesBrowser },
