@@ -6,6 +6,7 @@
       v-on:query-params-changed="handleParamsChange"
       v-on:next-page="handleNextPage" 
       v-on:places-changed="handlePlacesChange"
+      v-on:search-places="handleSearching"
     />
   </div>
 </template>
@@ -38,6 +39,15 @@ export default {
     handlePlacesChange(places) {
       this.queryParams = null;
       this.places = places;
+    },
+    async handleSearching({ search, filter }) {
+      if (search === "") return this.handleParamsChange({ page: 1 });
+      if (filter === "city") this.handleParamsChange({ page: 1, by_city: search });
+      else {
+        // Make a request for searching query
+        const { data } = await axios.get(`${API}/breweries/search?query=${search}`);
+        this.handlePlacesChange(data);
+      }
     },
   },
   computed: {

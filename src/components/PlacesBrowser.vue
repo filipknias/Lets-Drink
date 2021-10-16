@@ -9,8 +9,12 @@
         <h3 class="browserContainer__navbar__logoContainer__brand">Let's Drink</h3>
       </div>
       <div class="browserContainer__navbar__customSearch">
-        <CustomSearchInput />
+        <CustomSearchInput v-on:input-value-changed="handleInputValueChange" />
       </div>
+      <select class="browserContainer__navbar__select" v-model="searchBy">
+        <option value="name">By name</option>
+        <option value="city">By city</option>
+      </select>
     </div>
     <div class="browserContainer__content" @scroll="handleBrowserScroll">
       <PlacesList 
@@ -26,7 +30,6 @@
 <script>
 import CustomSearchInput from "./CustomSearchInput.vue";
 import PlacesList from "./PlacesList.vue";
-
 export default {
   name: 'PlacesBrowser',
   props: {
@@ -38,6 +41,8 @@ export default {
   data() {
     return {
       browserHidden: false,
+      searchBy: "name",
+      debounce: null,
     }
   },
   methods: {
@@ -47,6 +52,12 @@ export default {
         this.$emit("next-page"); 
       }
     },
+    handleInputValueChange(value) {
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(() => {
+        this.$emit("search-places", { search: value, filter: this.searchBy });
+      }, 1000);
+    },
   },
   components: { CustomSearchInput, PlacesList }, 
 }
@@ -55,6 +66,7 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables";
 @import "../styles/resets";
+@import "../styles/shared";
 .browserContainer {
   background-color: $browser-bg-color;
   color: $text-black;
@@ -107,7 +119,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: 1.5rem;
+    @media (max-width: $breakpoint-lg) {
+      gap: 1rem;
+    }
     @media (max-width: $breakpoint-sm) {
       gap: 0.5rem;
     }
@@ -137,6 +152,12 @@ export default {
     }
     .browserContainer__navbar__customSearch {
       flex: 1;
+    }
+    .browserContainer__navbar__select {
+      @include selectStyles(150px);
+      @media (max-width: $breakpoint-lg) {
+        width: 100px;
+      }
     }
   }
   .browserContainer__content {

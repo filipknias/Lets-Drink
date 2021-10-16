@@ -74,6 +74,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables";
+@import "../styles/shared";
 .topbar {
   display: flex;
   align-items: center;
@@ -83,12 +84,7 @@ export default {
     font-size: 1.4rem;
   }
   .topbar__select {
-    width: 150px;
-    padding: 0.5rem;
-    font-family: $font-primary;
-    font-size: 1rem;
-    border-radius: 5px;
-    outline: none;
+    @include selectStyles(150px);
   }
 }
 .list {

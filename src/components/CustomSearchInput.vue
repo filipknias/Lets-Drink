@@ -7,7 +7,7 @@
       type="text" 
       class="searchContainer__input" 
       placeholder="Search"
-      @change="handleInputChange"
+      v-model="searchInput"
     />
   </form>
 </template>
@@ -15,10 +15,15 @@
 <script>
 export default {
   name: 'CustomSearchInput',
-  methods: {
-    handleInputChange(e) {
-      this.$emit('input-value-changed', e.target.value);
+  data() {
+    return {
+      searchInput: "",
     }
+  },
+  watch: {
+    searchInput(value) {
+      this.$emit('input-value-changed', value);
+    },
   },
 }
 </script>
