@@ -169,10 +169,10 @@ export default {
         align-items: center;
         gap: 1rem;
         @media (max-width: $breakpoint-sm) {
-          display: none;
+          gap: 0.7rem;
+          flex-direction: column;
         }
         .place__right__button {
-          pointer-events: all;
           @include buttonReset;
           cursor: pointer;
           width: 40px;
@@ -186,11 +186,18 @@ export default {
           &:hover {
             background-color: $green-hover;
           }
+          @media (max-width: $breakpoint-sm) {
+            width: 30px;
+            height: 30px;
+          }
           .place__right__button__icon {
             color: white;
             font-size: 1rem;
             &.place__right__button__icon--favourite {
               color: $favourite-icon-color;
+            }
+            @media (max-width: $breakpoint-sm) {
+              font-size: 0.7rem;
             }
           }
         }

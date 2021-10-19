@@ -24,7 +24,9 @@ export default {
     return {
       map: null,
       places: [],
+      markers: [],
       queryParams: { page: 1 },
+      center: [30, 40],
     }
   },  
   methods: {
@@ -61,7 +63,7 @@ export default {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/filipknias/ckummyqir01lt18qr4lxhljdg',
-      center: [-74.5, 40], // Set first brewery coords
+      center: [-73.93, 40.73], 
       zoom: 12,
     });
     // Fetch places from api
@@ -74,6 +76,23 @@ export default {
       // Fetch data from api with changed query params
       const { data } = await axios.get(`${API}/breweries?${this.queryParamsString}`);
       this.places = [...this.places, ...data];      
+    },
+    places(places) {
+      // Remove old markers from map
+      this.markers.forEach((marker) => marker.remove());
+      this.markers = [];
+      // Add markers on map and push into state
+      places.forEach((place) => {
+        if (place.longitude === null || place.latitude === null) return;
+        // Add marker to map
+        const marker = new mapboxgl.Marker().setLngLat([place.longitude, place.latitude]).addTo(this.map);
+        this.markers.push(marker);
+      });
+      // Center map on first brewery with coords
+      const placeToCenter = places.find(({ longitude, latitude }) => longitude && latitude);
+      if (placeToCenter) {
+        this.map.jumpTo({ center: [placeToCenter.longitude, placeToCenter.latitude] });
+      }
     },
   },
   components: { PlacesBrowser },

@@ -15,6 +15,7 @@ import {
     faMap,
     faPhone,
     faTimes,
+    faBeer,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icons = [
@@ -29,6 +30,7 @@ const icons = [
     faMap,
     faPhone,
     faTimes,
+    faBeer,
 ];
 library.add(icons);
 
