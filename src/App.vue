@@ -85,7 +85,13 @@ export default {
       places.forEach((place) => {
         if (place.longitude === null || place.latitude === null) return;
         // Add marker to map
-        const marker = new mapboxgl.Marker().setLngLat([place.longitude, place.latitude]).addTo(this.map);
+        const popupText = `<h2 style="white-space:nowrap;">${place.name}</h2>`;
+        const popup = new mapboxgl.Popup().setHTML(popupText);
+        const marker = new mapboxgl
+                          .Marker()
+                          .setPopup(popup)
+                          .setLngLat([place.longitude, place.latitude])
+                          .addTo(this.map);
         this.markers.push(marker);
       });
       // Center map on first brewery with coords
@@ -109,7 +115,10 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100%; 
   }
+}
+.popup {
+  padding: 1rem;
 }
 </style>
